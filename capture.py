@@ -19,7 +19,7 @@ except:
     exit(-1)
 
 MAIN_DIR = './dataset'
-CLASS_DIR = os.path.join(MAIN_DIR,label _name) 
+CLASS_DIR = os.path.join(MAIN_DIR,label_name) 
 
 try:
     os.mkdir(MAIN_DIR)
@@ -49,6 +49,8 @@ while True:
 
     if start:
         crop = frame[100:500,100:500]
+        crop = cv2.cvtColor(crop, cv2.COLOR_BGR2RGB)
+        crop = cv2.resize(crop, (227, 227))
         save_path =  os.path.join(CLASS_DIR,'{}.jpg'.format(count+1))
         cv2.imwrite(save_path,crop)
         count = count+1
