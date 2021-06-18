@@ -18,17 +18,35 @@ except:
     print("To Start Press A and to quit press Q")
     exit(-1)
 
-MAIN_DIR = './dataset'
-CLASS_DIR = os.path.join(MAIN_DIR,label_name) 
+split= num_samples - num_samples*0.1
+MAIN_DIR = './dataset/train'
+TEST_DIR = './dataset/test'
+CLASS_DIR_TRAIN = os.path.join(MAIN_DIR,label_name)
+CLASS_DIR_TEST = os.path.join(TEST_DIR,label_name) 
+try:
+    os.mkdir("./dataset")
+except FileExistsError:
+    pass
 
+#checking for train dir
 try:
     os.mkdir(MAIN_DIR)
 except FileExistsError:
     pass
 try:
-    os.mkdir(CLASS_DIR)
+    os.mkdir(CLASS_DIR_TRAIN)
 except FileExistsError:
-    print("Warning: {} directory already exists.".format(CLASS_DIR))
+    print("Warning: {} directory already exists.".format(CLASS_DIR_TRAIN))
+    print("Warning: All images are stored in the same directory")
+#checking for test dir 
+try:
+    os.mkdir(TEST_DIR)
+except FileExistsError:
+    pass
+try:
+    os.mkdir(CLASS_DIR_TEST)
+except FileExistsError:
+    print("Warning: {} directory already exists.".format(CLASS_DIR_TEST))
     print("Warning: All images are stored in the same directory")
 
 cap = cv2.VideoCapture(0)
@@ -51,7 +69,10 @@ while True:
         crop = frame[100:500,100:500]
         crop = cv2.cvtColor(crop, cv2.COLOR_BGR2RGB)
         crop = cv2.resize(crop, (227, 227))
-        save_path =  os.path.join(CLASS_DIR,'{}.jpg'.format(count+1))
+        if count<split: 
+            save_path =  os.path.join(CLASS_DIR_TRAIN,'{}.jpg'.format(count+1))
+        else:
+            save_path =  os.path.join(CLASS_DIR_TEST,'{}.jpg'.format(count+1))
         cv2.imwrite(save_path,crop)
         count = count+1
     
@@ -69,6 +90,7 @@ while True:
     if k == ord('q'):
         break
     
-print("\n{} image(s) saved to {}".format(count, CLASS_DIR))
+print("\n{} image(s) saved to {}".format(count, CLASS_DIR_TRAIN))
+print("\n{} image(s) saved to {}".format(count-split, CLASS_DIR_TEST))
 cap.release()
 cv2.destroyAllWindows()
