@@ -52,7 +52,7 @@ model.add(keras.layers.Activation('softmax'))
 
 from tensorflow.keras.optimizers import Adam
 model.compile(
-    optimizer=Adam(lr==0.0001),
+    optimizer=Adam(learning_rate=0.0001),
     loss='categorical_crossentropy',
     metrics=['accuracy']
 )              

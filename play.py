@@ -2,6 +2,7 @@ from tensorflow.keras.models import load_model
 import cv2
 import numpy as np
 from random import choice
+import imutils
 
 REV_CLASS_MAP = {
     0: "none",
@@ -44,6 +45,8 @@ prev_move = None
 
 while True:
     ret, frame = cap.read()
+    frame = imutils.resize(frame, height = 1440, width=1920)
+    print(frame.shape)
     if not ret:
         continue
 
@@ -83,10 +86,13 @@ while True:
 
     if computer_move_name != "none":
         icon = cv2.imread(
-            "./images/{}.png".format(computer_move_name))
-        icon = cv2.resize(icon, (200, 200))
-        frame[300:500, 1000:1200] = icon
-    cv2.namedWindow("Rock Paper Scissors", cv2.WINDOW_AUTOSIZE)
+            "./images/{}.jpg".format(computer_move_name))
+        icon = cv2.resize(icon, (400,400))
+        
+#      icon = cv2.Canny(icon,100,100, L2gradient= True)
+        icon = icon.reshape(400,400,3)
+        frame[100:500,800:1200,:] = icon
+    cv2.namedWindow("Rock Paper Scissors")
     cv2.imshow("Rock Paper Scissors", frame)
 
     k = cv2.waitKey(10)
