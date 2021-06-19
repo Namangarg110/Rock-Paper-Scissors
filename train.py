@@ -94,7 +94,7 @@ plt.plot  ( epochs,     loss )
 plt.plot  ( epochs, val_loss )
 plt.title ('Training and validation loss'   )
 
-model.save("rock-paper-scissors-model.h5")
+model.save("./model/rock-paper-scissors-model.h5")
 
 from numba import cuda 
 device = cuda.get_current_device()

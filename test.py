@@ -17,7 +17,7 @@ def mapper(val):
     return REV_CLASS_MAP[val]
 
 
-model = load_model("rock-paper-scissors-model.h5")
+model = load_model("./model/rock-paper-scissors-model.h5")
 
 img = cv2.imread(path)
 img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
